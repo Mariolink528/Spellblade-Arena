@@ -1,7 +1,7 @@
 extends Node2D
 
-
-var hp = 15
+onready var hp_label = $HP_Label
+var hp = 15 setget set_hp
 
 var dmg = 5
 
@@ -9,6 +9,9 @@ var dmg = 5
 func _ready():
 	pass # Replace with function body.
 
+func set_hp(new_hp):
+	hp = new_hp
+	hp_label.text = "HP: " + str(hp)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

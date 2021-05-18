@@ -142,6 +142,18 @@ __meta__ = {
 frames = SubResource( 1 )
 animation = "Default"
 
+[node name="HP_Label" type="Label" parent="Battle/Knight"]
+margin_left = -36.0
+margin_top = -70.0
+margin_right = 40.0
+margin_bottom = -45.0
+text = "HP: 20"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Mage" type="Node2D" parent="Battle"]
 position = Vector2( 113.137, 379.009 )
 script = ExtResource( 6 )
@@ -152,17 +164,29 @@ __meta__ = {
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Battle/Mage"]
 frames = SubResource( 2 )
 
+[node name="HP_Label" type="Label" parent="Battle/Mage"]
+margin_left = -36.0
+margin_top = -70.0
+margin_right = 40.0
+margin_bottom = -45.0
+text = "HP: 15"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Enemy" type="Node2D" parent="Battle"]
 position = Vector2( 899.274, 302.943 )
 script = ExtResource( 5 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Battle/Enemy"]
 frames = SubResource( 7 )
-frame = 1
+frame = 2
 speed_scale = 1.323
 playing = true
 
 [connection signal="enemy_turn" from="Battle" to="Battle/Enemy" method="_on_Battle_enemy_turn"]
 [connection signal="pressed" from="Battle/Battle_Menu/Knight_Menu/Sword_Button" to="Battle" method="_on_Sword_Button_pressed"]
 [connection signal="pressed" from="Battle/Battle_Menu/Mage_Menu/Fire_Button" to="Battle" method="_on_Fire_Button_pressed"]
-[connection signal="player_turn" from="Battle/Enemy" to="Battle" method="_on_Enemy_player_turn"]
+[connection signal="attack_one" from="Battle/Enemy" to="Battle" method="_on_Enemy_attack_one"]
