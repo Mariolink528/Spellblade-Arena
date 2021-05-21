@@ -8,7 +8,7 @@ var dmg = 5
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
-
+#updating HP
 func set_hp(new_hp):
 	hp = new_hp
 	hp_label.text = "HP: " + str(hp)

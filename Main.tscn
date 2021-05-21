@@ -89,7 +89,7 @@ margin_right = 50.0
 margin_bottom = 44.0
 text = "Spear"
 
-[node name="Wait_Button" type="Button" parent="Battle/Battle_Menu/Knight_Menu"]
+[node name="Knight_Wait_Button" type="Button" parent="Battle/Battle_Menu/Knight_Menu"]
 margin_left = 54.0
 margin_top = 24.0
 margin_right = 95.0
@@ -121,7 +121,7 @@ margin_right = 45.0
 margin_bottom = 44.0
 text = "Wind"
 
-[node name="Wait_Button" type="Button" parent="Battle/Battle_Menu/Mage_Menu"]
+[node name="Mage_Wait_Button" type="Button" parent="Battle/Battle_Menu/Mage_Menu"]
 margin_left = 49.0
 margin_top = 24.0
 margin_right = 119.0
@@ -186,7 +186,25 @@ frame = 2
 speed_scale = 1.323
 playing = true
 
+[node name="HP_Label" type="Label" parent="Battle/Enemy"]
+margin_left = -39.0
+margin_top = -35.0
+margin_right = 41.0
+margin_bottom = -17.0
+text = "HP: 20"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="enemy_turn" from="Battle" to="Battle/Enemy" method="_on_Battle_enemy_turn"]
 [connection signal="pressed" from="Battle/Battle_Menu/Knight_Menu/Sword_Button" to="Battle" method="_on_Sword_Button_pressed"]
+[connection signal="pressed" from="Battle/Battle_Menu/Knight_Menu/Axe_Button" to="Battle" method="_on_Axe_Button_pressed"]
+[connection signal="pressed" from="Battle/Battle_Menu/Knight_Menu/Spear_Button" to="Battle" method="_on_Spear_Button_pressed"]
+[connection signal="pressed" from="Battle/Battle_Menu/Knight_Menu/Knight_Wait_Button" to="Battle" method="_on_Knight_Wait_Button_pressed"]
 [connection signal="pressed" from="Battle/Battle_Menu/Mage_Menu/Fire_Button" to="Battle" method="_on_Fire_Button_pressed"]
+[connection signal="pressed" from="Battle/Battle_Menu/Mage_Menu/Lightning_Button" to="Battle" method="_on_Lightning_Button_pressed"]
+[connection signal="pressed" from="Battle/Battle_Menu/Mage_Menu/Wind_Button" to="Battle" method="_on_Wind_Button_pressed"]
+[connection signal="pressed" from="Battle/Battle_Menu/Mage_Menu/Mage_Wait_Button" to="Battle" method="_on_Mage_Wait_Button_pressed"]
 [connection signal="attack_one" from="Battle/Enemy" to="Battle" method="_on_Enemy_attack_one"]
+[connection signal="attack_zero" from="Battle/Enemy" to="Battle" method="_on_Enemy_attack_zero"]
