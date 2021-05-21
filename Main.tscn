@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Slime.png" type="Texture" id=1]
 [ext_resource path="res://Knight-1.png.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Mage.gd" type="Script" id=6]
 [ext_resource path="res://Knight.gd" type="Script" id=7]
 [ext_resource path="res://Battle.gd" type="Script" id=8]
+[ext_resource path="res://Button Press.png" type="Texture" id=9]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -44,6 +45,22 @@ region = Rect2( 64, 64, 64, 64 )
 [sub_resource type="SpriteFrames" id=7]
 animations = [ {
 "frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 9 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 9 )
+region = Rect2( 0, 64, 64, 64 )
+
+[sub_resource type="SpriteFrames" id=10]
+animations = [ {
+"frames": [ SubResource( 8 ), SubResource( 9 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -182,7 +199,7 @@ script = ExtResource( 5 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Battle/Enemy"]
 frames = SubResource( 7 )
-frame = 2
+frame = 1
 speed_scale = 1.323
 playing = true
 
@@ -197,6 +214,16 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="StartWindow" type="Timer" parent="Battle"]
+
+[node name="EndWindow" type="Timer" parent="Battle"]
+wait_time = 2.0
+
+[node name="ACDisplay" type="AnimatedSprite" parent="Battle"]
+position = Vector2( 896.681, 154.795 )
+frames = SubResource( 10 )
+
 [connection signal="enemy_turn" from="Battle" to="Battle/Enemy" method="_on_Battle_enemy_turn"]
 [connection signal="pressed" from="Battle/Battle_Menu/Knight_Menu/Sword_Button" to="Battle" method="_on_Sword_Button_pressed"]
 [connection signal="pressed" from="Battle/Battle_Menu/Knight_Menu/Axe_Button" to="Battle" method="_on_Axe_Button_pressed"]
@@ -208,3 +235,5 @@ __meta__ = {
 [connection signal="pressed" from="Battle/Battle_Menu/Mage_Menu/Mage_Wait_Button" to="Battle" method="_on_Mage_Wait_Button_pressed"]
 [connection signal="attack_one" from="Battle/Enemy" to="Battle" method="_on_Enemy_attack_one"]
 [connection signal="attack_zero" from="Battle/Enemy" to="Battle" method="_on_Enemy_attack_zero"]
+[connection signal="timeout" from="Battle/StartWindow" to="Battle" method="_on_StartWindow_timeout"]
+[connection signal="timeout" from="Battle/EndWindow" to="Battle" method="_on_EndWindow_timeout"]

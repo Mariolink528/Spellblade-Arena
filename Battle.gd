@@ -5,14 +5,18 @@ extends Node2D
 # var a = 2
 onready var enemy = $Enemy
 signal enemy_turn
-
+onready var window = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Battle_Menu/Mage_Menu.hide()
+	$ACDisplay.hide()
 
 #Knight Menu Functions
 func _on_Sword_Button_pressed():
 	if enemy!= null:
+		$StartWindow.start(1)
+		$EndWindow.start(2)
+		$ACDisplay.show()
 		enemy.hp -= $Knight.dmg
 		if enemy.hp <= 0:
 			enemy.queue_free()
@@ -98,3 +102,15 @@ func _on_Enemy_attack_zero():
 
 
 
+
+
+func _on_StartWindow_timeout():
+	window = true
+	$ACDisplay.frame = 1
+
+
+func _on_EndWindow_timeout():
+	window = false
+	$ACDisplay.frame = 0
+	$ACDisplay.hide()
+	
