@@ -6,6 +6,7 @@ extends Node2D
 onready var enemy = $Enemy
 signal enemy_turn
 onready var window = false
+onready var attack = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Battle_Menu/Mage_Menu.hide()
@@ -14,35 +15,26 @@ func _ready():
 #Knight Menu Functions
 func _on_Sword_Button_pressed():
 	if enemy!= null:
-		$StartWindow.start(1)
-		$EndWindow.start(2)
-		$ACDisplay.show()
-		enemy.hp -= $Knight.dmg
-		if enemy.hp <= 0:
-			enemy.queue_free()
-			enemy = null
-		else:
-			$Battle_Menu/Mage_Menu.show()
-		$Battle_Menu/Knight_Menu.hide()
+		attack = 1
+		$StartWindow.start(0.5)
+		$EndWindow.start(1)
+		$ACDisplay.show()	
+	$Battle_Menu/Knight_Menu.hide()
 		
 func _on_Axe_Button_pressed():
 	if enemy!= null:
-		enemy.hp -= $Knight.dmg
-		if enemy.hp <= 0:
-			enemy.queue_free()
-			enemy = null
-		else:
-			$Battle_Menu/Mage_Menu.show()
-		$Battle_Menu/Knight_Menu.hide()
+		attack = 2
+		$StartWindow.start(0.5)
+		$EndWindow.start(1)
+		$ACDisplay.show()	
+	$Battle_Menu/Knight_Menu.hide()
 func _on_Spear_Button_pressed():
 	if enemy!= null:
-		enemy.hp -= $Knight.dmg
-		if enemy.hp <= 0:
-			enemy.queue_free()
-			enemy = null
-		else:
-			$Battle_Menu/Mage_Menu.show()
-		$Battle_Menu/Knight_Menu.hide()
+		attack = 3
+		$StartWindow.start(0.5)
+		$EndWindow.start(1)
+		$ACDisplay.show()	
+	$Battle_Menu/Knight_Menu.hide()
 func _on_Knight_Wait_Button_pressed():
 	$Battle_Menu/Mage_Menu.show()
 	$Battle_Menu/Knight_Menu.hide()
@@ -98,6 +90,42 @@ func _on_Enemy_attack_zero():
 
 
 
+func _unhandled_input(event):
+	if event is InputEventKey:
+		if event.pressed and event.scancode == KEY_X:
+			if window == true:
+				if attack == 1:
+					enemy.hp -= $Knight.dmg
+					window = false
+					if enemy.hp <= 0:
+						enemy.queue_free()
+						enemy = null
+					else:
+						$Battle_Menu/Mage_Menu.show()
+				if attack == 2:
+					enemy.hp -= $Knight.dmg
+					window = false
+					if enemy.hp <= 0:
+						enemy.queue_free()
+						enemy = null
+					else:
+						$Battle_Menu/Mage_Menu.show()
+				if attack == 3:
+					enemy.hp -= $Knight.dmg
+					window = false
+					if enemy.hp <= 0:
+						enemy.queue_free()
+						enemy = null
+					else:
+						$Battle_Menu/Mage_Menu.show()
+			else:
+				$Battle_Menu/Mage_Menu.show()
+			$StartWindow.stop()
+			$EndWindow.stop()
+			attack = 0
+			window = false
+			$ACDisplay.frame = 0
+			$ACDisplay.hide()
 
 
 
