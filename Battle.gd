@@ -5,7 +5,7 @@ extends Node2D
 # var a = 2
 onready var enemy = $Enemy
 signal enemy_turn
-onready var window = false
+onready var window = "false"
 onready var attack = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,6 +18,7 @@ func _on_Sword_Button_pressed():
 		attack = 1
 		$StartWindow.start(0.5)
 		$EndWindow.start(1)
+		$ACDisplay.frame = 0
 		$ACDisplay.show()	
 	$Battle_Menu/Knight_Menu.hide()
 		
@@ -26,6 +27,7 @@ func _on_Axe_Button_pressed():
 		attack = 2
 		$StartWindow.start(1)
 		$EndWindow.start(1.5)
+		$ACDisplay.frame = 0
 		$ACDisplay.show()	
 	$Battle_Menu/Knight_Menu.hide()
 func _on_Spear_Button_pressed():
@@ -33,6 +35,7 @@ func _on_Spear_Button_pressed():
 		attack = 3
 		$StartWindow.start(0.5)
 		$EndWindow.start(1)
+		$ACDisplay.frame = 0
 		$ACDisplay.show()	
 	$Battle_Menu/Knight_Menu.hide()
 func _on_Knight_Wait_Button_pressed():
@@ -45,6 +48,7 @@ func _on_Fire_Button_pressed():
 		attack = 4
 		$StartWindow.start(0.5)
 		$EndWindow.start(1)
+		$ACDisplay.frame = 2
 		$ACDisplay.show()	
 	$Battle_Menu/Mage_Menu.hide()
 
@@ -54,6 +58,7 @@ func _on_Lightning_Button_pressed():
 		attack = 5
 		$StartWindow.start(0.5)
 		$EndWindow.start(1)
+		$ACDisplay.frame = 2
 		$ACDisplay.show()	
 	$Battle_Menu/Mage_Menu.hide()
 func _on_Wind_Button_pressed():
@@ -61,6 +66,7 @@ func _on_Wind_Button_pressed():
 		attack = 4
 		$StartWindow.start(0.5)
 		$EndWindow.start(1)
+		$ACDisplay.frame = 2
 		$ACDisplay.show()	
 	$Battle_Menu/Mage_Menu.hide()
 func _on_Mage_Wait_Button_pressed():
@@ -72,15 +78,19 @@ func _on_Mage_Wait_Button_pressed():
 #trying to have the enemy attack inside of the battle function
 func _on_Enemy_attack_one():
 	attack = 7
+	window = "Knight"
 	$StartWindow.start(0.5)
+	$ACDisplay.frame = 0
 	$EndWindow.start(1)
 	$ACDisplay.show()
 
 
 func _on_Enemy_attack_zero():
 	attack = 8
+	window = "Mage"
 	$StartWindow.start(0.5)
 	$EndWindow.start(1)
+	$ACDisplay.frame = 2
 	$ACDisplay.show()
 
 
@@ -89,10 +99,13 @@ func _on_Enemy_attack_zero():
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.scancode == KEY_X:
-			if window == true:
+			if window == "Knight":
 				if attack == 1:
 					enemy.hp -= $Knight.dmg
-					window = false
+					window = "false"
+					$StartWindow.stop()
+					$EndWindow.stop()
+					$ACDisplay.hide()
 					if enemy.hp <= 0:
 						enemy.queue_free()
 						enemy = null
@@ -100,7 +113,10 @@ func _unhandled_input(event):
 						$Battle_Menu/Mage_Menu.show()
 				elif attack == 2:
 					enemy.hp -= $Knight.dmg
-					window = false
+					window = "false"
+					$StartWindow.stop()
+					$EndWindow.stop()
+					$ACDisplay.hide()
 					if enemy.hp <= 0:
 						enemy.queue_free()
 						enemy = null
@@ -108,7 +124,10 @@ func _unhandled_input(event):
 						$Battle_Menu/Mage_Menu.show()
 				elif attack == 3:
 					enemy.hp -= $Knight.dmg
-					window = false
+					window = "false"
+					$StartWindow.stop()
+					$EndWindow.stop()
+					$ACDisplay.hide()
 					if enemy.hp <= 0:
 						enemy.queue_free()
 						enemy = null
@@ -116,21 +135,14 @@ func _unhandled_input(event):
 						$Battle_Menu/Mage_Menu.show()
 				elif attack == 7:
 					$Battle_Menu/Knight_Menu.show()
-			else:
-				if attack == 7:
-					$Knight.hp -= 3
-					$Battle_Menu/Knight_Menu.show()
-			$StartWindow.stop()
-			$EndWindow.stop()
-			attack = 0
-			window = false
-			$ACDisplay.frame = 0
-			$ACDisplay.hide()
+					$ACDisplay.frame = 0
+					$ACDisplay.hide()
+					$EndWindow.stop()
 		if event.pressed and event.scancode == KEY_C:
-			if window == true:
+			if window == "Mage":
 				if attack == 4:
 					enemy.hp -= $Mage.dmg
-					window = false
+					window = "false"
 					if enemy.hp <= 0:
 						enemy.queue_free()
 						enemy = null
@@ -138,7 +150,7 @@ func _unhandled_input(event):
 						emit_signal("enemy_turn")
 				elif attack == 5:
 					enemy.hp -= $Mage.dmg
-					window = false
+					window = "false"
 					if enemy.hp <= 0:
 						enemy.queue_free()
 						enemy = null
@@ -146,7 +158,7 @@ func _unhandled_input(event):
 						emit_signal("enemy_turn")
 				elif attack == 6:
 					enemy.hp -= $Mage.dmg
-					window = false
+					window = "false"
 					if enemy.hp <= 0:
 						enemy.queue_free()
 						enemy = null
@@ -154,16 +166,10 @@ func _unhandled_input(event):
 						emit_signal("enemy_turn")
 				elif attack == 8:
 					$Battle_Menu/Knight_Menu.show()
-			else:
-				if attack == 8:
-					$Mage.hp -= 3
-					$Battle_Menu/Knight_Menu.show()
-			$StartWindow.stop()
-			$EndWindow.stop()
-			attack = 0
-			window = false
-			$ACDisplay.frame = 0
-			$ACDisplay.hide()
+					$ACDisplay.frame = 0
+					$ACDisplay.hide()
+					$EndWindow.stop()
+
 
 
 
@@ -171,12 +177,17 @@ func _unhandled_input(event):
 
 
 func _on_StartWindow_timeout():
-	window = true
-	$ACDisplay.frame = 1
+	
+	if attack >= 4 and attack != 7:
+		$ACDisplay.frame = 3
+		window = "Mage"
+	else:
+		$ACDisplay.frame = 1
+		window = "Knight"
 
 
 func _on_EndWindow_timeout():
-	window = false
+	window = "false"
 	if attack == 7:
 		$Knight.hp -= 3
 		attack = 0
@@ -185,6 +196,11 @@ func _on_EndWindow_timeout():
 		$Mage.hp -= 3
 		attack = 0
 		$Battle_Menu/Knight_Menu.show()
-	$ACDisplay.frame = 0
-	$ACDisplay.hide()
+	if attack > 0 and attack < 4:
+		$Battle_Menu/Mage_Menu.show()
+	if attack >= 4 and attack <= 6: 
+		emit_signal("enemy_turn")
+	else:
+		$ACDisplay.frame = 0
+		$ACDisplay.hide()
 	
