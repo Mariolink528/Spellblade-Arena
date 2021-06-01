@@ -1,6 +1,4 @@
 extends Node2D
-
-
 # Declare member variables here. Examples:
 # var a = 2
 onready var enemy = $Enemy
@@ -11,7 +9,7 @@ onready var attack = 0
 func _ready():
 	$Battle_Menu/Mage_Menu.hide()
 	$ACDisplay.hide()
-
+	$Battle_Menu/Next_Battle.hide()
 #Knight Menu Functions
 func _on_Sword_Button_pressed():
 	if enemy!= null:
@@ -20,8 +18,7 @@ func _on_Sword_Button_pressed():
 		$EndWindow.start(1)
 		$ACDisplay.frame = 0
 		$ACDisplay.show()	
-	$Battle_Menu/Knight_Menu.hide()
-		
+	$Battle_Menu/Knight_Menu.hide()		
 func _on_Axe_Button_pressed():
 	if enemy!= null:
 		attack = 2
@@ -41,7 +38,6 @@ func _on_Spear_Button_pressed():
 func _on_Knight_Wait_Button_pressed():
 	$Battle_Menu/Mage_Menu.show()
 	$Battle_Menu/Knight_Menu.hide()
-
 #Mage Menu functions
 func _on_Fire_Button_pressed():
 	if enemy!= null:
@@ -50,9 +46,7 @@ func _on_Fire_Button_pressed():
 		$EndWindow.start(1)
 		$ACDisplay.frame = 2
 		$ACDisplay.show()	
-	$Battle_Menu/Mage_Menu.hide()
-
-		
+	$Battle_Menu/Mage_Menu.hide()		
 func _on_Lightning_Button_pressed():
 	if enemy!= null:
 		attack = 5
@@ -83,8 +77,6 @@ func _on_Enemy_attack_one():
 	$ACDisplay.frame = 0
 	$EndWindow.start(1)
 	$ACDisplay.show()
-
-
 func _on_Enemy_attack_zero():
 	attack = 8
 	window = "Mage"
@@ -92,9 +84,6 @@ func _on_Enemy_attack_zero():
 	$EndWindow.start(1)
 	$ACDisplay.frame = 2
 	$ACDisplay.show()
-
-
-
 
 func _unhandled_input(event):
 	if event is InputEventKey:
@@ -109,6 +98,7 @@ func _unhandled_input(event):
 					if enemy.hp <= 0:
 						enemy.queue_free()
 						enemy = null
+						$Battle_Menu/Next_Battle.show()
 					else:
 						$Battle_Menu/Mage_Menu.show()
 				elif attack == 2:
@@ -120,6 +110,7 @@ func _unhandled_input(event):
 					if enemy.hp <= 0:
 						enemy.queue_free()
 						enemy = null
+						$Battle_Menu/Next_Battle.show()
 					else:
 						$Battle_Menu/Mage_Menu.show()
 				elif attack == 3:
@@ -131,6 +122,7 @@ func _unhandled_input(event):
 					if enemy.hp <= 0:
 						enemy.queue_free()
 						enemy = null
+						$Battle_Menu/Next_Battle.show()
 					else:
 						$Battle_Menu/Mage_Menu.show()
 				elif attack == 7:
@@ -146,6 +138,10 @@ func _unhandled_input(event):
 					if enemy.hp <= 0:
 						enemy.queue_free()
 						enemy = null
+						$StartWindow.stop()
+						$EndWindow.stop()
+						$ACDisplay.hide()
+						$Battle_Menu/Next_Battle.show()
 					else:
 						emit_signal("enemy_turn")
 				elif attack == 5:
@@ -154,6 +150,10 @@ func _unhandled_input(event):
 					if enemy.hp <= 0:
 						enemy.queue_free()
 						enemy = null
+						$StartWindow.stop()
+						$EndWindow.stop()
+						$ACDisplay.hide()
+						$Battle_Menu/Next_Battle.show()
 					else:
 						emit_signal("enemy_turn")
 				elif attack == 6:
@@ -162,6 +162,10 @@ func _unhandled_input(event):
 					if enemy.hp <= 0:
 						enemy.queue_free()
 						enemy = null
+						$StartWindow.stop()
+						$EndWindow.stop()
+						$ACDisplay.hide()
+						$Battle_Menu/Next_Battle.show()
 					else:
 						emit_signal("enemy_turn")
 				elif attack == 8:
@@ -171,13 +175,7 @@ func _unhandled_input(event):
 					$EndWindow.stop()
 
 
-
-
-
-
-
 func _on_StartWindow_timeout():
-	
 	if attack >= 4 and attack != 7:
 		$ACDisplay.frame = 3
 		window = "Mage"
@@ -204,3 +202,8 @@ func _on_EndWindow_timeout():
 		$ACDisplay.frame = 0
 		$ACDisplay.hide()
 	
+
+
+func _on_Next_Battle_pressed():
+	
+	pass
