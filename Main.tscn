@@ -25,25 +25,25 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="AtlasTexture" id=8]
+[sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 9 )
 region = Rect2( 0, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 9 )
 region = Rect2( 0, 64, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=10]
+[sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 4 )
 region = Rect2( 0, 64, 64, 64 )
 
-[sub_resource type="SpriteFrames" id=12]
+[sub_resource type="SpriteFrames" id=7]
 animations = [ {
-"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -192,8 +192,11 @@ wait_time = 2.0
 
 [node name="ACDisplay" type="AnimatedSprite" parent="Battle"]
 position = Vector2( 896.681, 154.795 )
-frames = SubResource( 12 )
+frames = SubResource( 7 )
 
+[connection signal="attack_one" from="Battle" to="Battle" method="_on_Battle_attack_one"]
+[connection signal="attack_zero" from="Battle" to="Battle" method="_on_Battle_attack_zero"]
+[connection signal="enemy_turn" from="Battle" to="Battle" method="_on_Battle_enemy_turn"]
 [connection signal="pressed" from="Battle/Battle_Menu/Knight_Menu/Sword_Button" to="Battle" method="_on_Sword_Button_pressed"]
 [connection signal="pressed" from="Battle/Battle_Menu/Knight_Menu/Axe_Button" to="Battle" method="_on_Axe_Button_pressed"]
 [connection signal="pressed" from="Battle/Battle_Menu/Knight_Menu/Spear_Button" to="Battle" method="_on_Spear_Button_pressed"]

@@ -5,6 +5,12 @@ onready var enemy = $Enemy
 signal enemy_turn
 onready var window = "false"
 onready var attack = 0
+
+var rng = RandomNumberGenerator.new()
+var target = 0
+signal attack_one
+signal attack_zero
+const enemy_scene =  preload("res://Enemy.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Battle_Menu/Mage_Menu.hide()
@@ -70,14 +76,14 @@ func _on_Mage_Wait_Button_pressed():
 
 
 #trying to have the enemy attack inside of the battle function
-func _on_Enemy_attack_one():
+func _on_Battle_attack_one():
 	attack = 7
 	window = "Knight"
 	$StartWindow.start(0.5)
 	$ACDisplay.frame = 0
 	$EndWindow.start(1)
 	$ACDisplay.show()
-func _on_Enemy_attack_zero():
+func _on_Battle_attack_zero():
 	attack = 8
 	window = "Mage"
 	$StartWindow.start(0.5)
@@ -205,5 +211,16 @@ func _on_EndWindow_timeout():
 
 
 func _on_Next_Battle_pressed():
-	
+	add_child(enemy_scene.instance())
+	enemy = $Enemy
+	$Battle_Menu/Next_Battle.hide()
+	$Battle_Menu/Knight_Menu.show()
 	pass
+
+func _on_Battle_enemy_turn():
+	rng.randomize()
+	target = rng.randi_range(0, 1)
+	if target == 1:
+		emit_signal("attack_one")
+	else:
+		emit_signal("attack_zero")
