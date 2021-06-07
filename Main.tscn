@@ -150,6 +150,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Score" type="Label" parent="Battle/Battle_Menu"]
+margin_left = 415.0
+margin_top = 9.0
+margin_right = 528.0
+margin_bottom = 27.0
+text = "Score: 0"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Knight" type="Node2D" parent="Battle"]
 position = Vector2( 212.132, 195.161 )
 script = ExtResource( 7 )

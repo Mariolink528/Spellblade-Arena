@@ -1,6 +1,7 @@
 extends Node2D
 # Declare member variables here. Examples:
 # var a = 2
+var score = 0
 onready var enemy = $Enemy
 signal enemy_turn
 onready var window = "false"
@@ -109,6 +110,8 @@ func _unhandled_input(event):
 					if enemy.hp <= 0:
 						enemy.queue_free()
 						enemy = null
+						score += 1
+						$Battle_Menu/Score.text = "Score: " + str(score)
 						$Battle_Menu/Next_Battle.show()
 					else:
 						if $Mage.hp > 0:
@@ -124,6 +127,8 @@ func _unhandled_input(event):
 					if enemy.hp <= 0:
 						enemy.queue_free()
 						enemy = null
+						score += 1
+						$Battle_Menu/Score.text = "Score: " + str(score)
 						$Battle_Menu/Next_Battle.show()
 					else:
 						if $Mage.hp > 0:
@@ -139,6 +144,8 @@ func _unhandled_input(event):
 					if enemy.hp <= 0:
 						enemy.queue_free()
 						enemy = null
+						score += 1
+						$Battle_Menu/Score.text = "Score: " + str(score)
 						$Battle_Menu/Next_Battle.show()
 					else:
 						if $Mage.hp > 0:
@@ -161,6 +168,8 @@ func _unhandled_input(event):
 						$StartWindow.stop()
 						$EndWindow.stop()
 						$ACDisplay.hide()
+						score += 1
+						$Battle_Menu/Score.text = "Score: " + str(score)
 						$Battle_Menu/Next_Battle.show()
 					else:
 						emit_signal("enemy_turn")
@@ -173,6 +182,8 @@ func _unhandled_input(event):
 						$StartWindow.stop()
 						$EndWindow.stop()
 						$ACDisplay.hide()
+						score += 1
+						$Battle_Menu/Score.text = "Score: " + str(score)
 						$Battle_Menu/Next_Battle.show()
 					else:
 						emit_signal("enemy_turn")
@@ -185,6 +196,8 @@ func _unhandled_input(event):
 						$StartWindow.stop()
 						$EndWindow.stop()
 						$ACDisplay.hide()
+						score += 1
+						$Battle_Menu/Score.text = "Score: " + str(score)
 						$Battle_Menu/Next_Battle.show()
 					else:
 						emit_signal("enemy_turn")
