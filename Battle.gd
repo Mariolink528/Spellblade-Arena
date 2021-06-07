@@ -16,6 +16,7 @@ func _ready():
 	$Battle_Menu/Mage_Menu.hide()
 	$ACDisplay.hide()
 	$Battle_Menu/Next_Battle.hide()
+	$Battle_Menu/Game_Over.hide()
 #Knight Menu Functions
 func _on_Sword_Button_pressed():
 	if enemy!= null:
@@ -42,8 +43,12 @@ func _on_Spear_Button_pressed():
 		$ACDisplay.show()	
 	$Battle_Menu/Knight_Menu.hide()
 func _on_Knight_Wait_Button_pressed():
-	$Battle_Menu/Mage_Menu.show()
 	$Battle_Menu/Knight_Menu.hide()
+	if $Mage.hp > 0:
+		$Battle_Menu/Mage_Menu.show()
+	else:
+		emit_signal("enemy_turn")
+	
 #Mage Menu functions
 func _on_Fire_Button_pressed():
 	if enemy!= null:
@@ -106,7 +111,10 @@ func _unhandled_input(event):
 						enemy = null
 						$Battle_Menu/Next_Battle.show()
 					else:
-						$Battle_Menu/Mage_Menu.show()
+						if $Mage.hp > 0:
+							$Battle_Menu/Mage_Menu.show()
+						else:
+							emit_signal("enemy_turn")
 				elif attack == 2:
 					enemy.hp -= $Knight.dmg
 					window = "false"
@@ -118,7 +126,10 @@ func _unhandled_input(event):
 						enemy = null
 						$Battle_Menu/Next_Battle.show()
 					else:
-						$Battle_Menu/Mage_Menu.show()
+						if $Mage.hp > 0:
+							$Battle_Menu/Mage_Menu.show()
+						else:
+							emit_signal("enemy_turn")
 				elif attack == 3:
 					enemy.hp -= $Knight.dmg
 					window = "false"
@@ -130,7 +141,10 @@ func _unhandled_input(event):
 						enemy = null
 						$Battle_Menu/Next_Battle.show()
 					else:
-						$Battle_Menu/Mage_Menu.show()
+						if $Mage.hp > 0:
+							$Battle_Menu/Mage_Menu.show()
+						else:
+							emit_signal("enemy_turn")
 				elif attack == 7:
 					$Battle_Menu/Knight_Menu.show()
 					$ACDisplay.frame = 0
@@ -175,7 +189,10 @@ func _unhandled_input(event):
 					else:
 						emit_signal("enemy_turn")
 				elif attack == 8:
-					$Battle_Menu/Knight_Menu.show()
+					if $Knight.hp > 0:
+						$Battle_Menu/Knight_Menu.show()
+					else: 
+						$Battle_Menu/Mage_Menu.show()
 					$ACDisplay.frame = 0
 					$ACDisplay.hide()
 					$EndWindow.stop()
@@ -196,12 +213,26 @@ func _on_EndWindow_timeout():
 		$Knight.hp -= 3
 		attack = 0
 		$Battle_Menu/Knight_Menu.show()
+		if $Knight.hp <= 0:
+			$Battle_Menu/Knight_Menu.hide()
+			if $Mage.hp >= 0:
+				$Battle_Menu/Mage_Menu.show()
+			else:
+				emit_signal("enemy_turn")
 	if attack == 8:
 		$Mage.hp -= 3
 		attack = 0
 		$Battle_Menu/Knight_Menu.show()
+		if $Knight.hp <= 0:
+			$Battle_Menu/Knight_Menu.hide()
+			if $Mage.hp >= 0:
+				$Battle_Menu/Mage_Menu.show()
+			else: 
+				emit_signal("enemy_turn")
+		
 	if attack > 0 and attack < 4:
-		$Battle_Menu/Mage_Menu.show()
+		if $Mage.hp > 0:
+			$Battle_Menu/Mage_Menu.show()
 	if attack >= 4 and attack <= 6: 
 		emit_signal("enemy_turn")
 	else:
@@ -221,6 +252,16 @@ func _on_Battle_enemy_turn():
 	rng.randomize()
 	target = rng.randi_range(0, 1)
 	if target == 1:
-		emit_signal("attack_one")
-	else:
-		emit_signal("attack_zero")
+		if $Knight.hp > 0:
+			emit_signal("attack_one")
+		else:
+			target = 0
+	if target != 1:
+		if $Mage.hp > 0:
+			emit_signal("attack_zero")
+		else:
+			if $Knight.hp > 0 :
+				emit_signal("attack_one")
+	if $Knight.hp <= 0 and $Mage.hp <= 0:
+		$Battle_Menu/Game_Over.show()
+
